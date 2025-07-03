@@ -38,17 +38,39 @@ Before using this script, please ensure you have the following installed and con
 ## Usage
 
 1.  Make changes to your project files.
-2.  Instead of `git commit`, simply run the script from your repository's root directory:
+2.  Stage your changes manually (recommended):
     ```bash
+    git add .
     ./commit.sh
     ```
+    Or use the `--auto-add` flag to automatically stage all changes:
+    ```bash
+    ./commit.sh --auto-add
+    ```
 
-The script will automatically add all changes, generate a commit message, show it to you, and then perform the commit.
+### Command Line Options
+
+- `--auto-add`: Automatically add all changes to staging before generating the commit message
+- `--help`: Display help information and usage examples
+
+### Examples
+
+```bash
+# Commit only staged changes (recommended workflow)
+git add file1.js file2.js
+./commit.sh
+
+# Automatically add all changes and commit
+./commit.sh --auto-add
+
+# Show help information
+./commit.sh --help
+```
 
 ## How It Works
 
 1.  **Check for Gemini CLI**: Verifies that the `gemini` command is available.
-2.  **Stage Changes**: Runs `git add .` to stage all modified files.
+2.  **Stage Changes**: Optionally runs `git add .` to stage all modified files (only with `--auto-add` flag).
 3.  **Check for Differences**: Exits if there are no staged changes.
 4.  **Generate Prompt**: Creates a prompt for the Gemini CLI, instructing it to act as an expert programmer and generate a conventional commit message based on the output of `git diff --cached`.
 5.  **Call Gemini**: Executes the `gemini -p "$PROMPT"` command to get the commit message.

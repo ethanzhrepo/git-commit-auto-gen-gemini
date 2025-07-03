@@ -10,20 +10,64 @@ set -e # Exit on any error
 #    You can check this by running: command -v gemini
 # 2. Ensure you are authenticated with the Gemini API.
 
+# Function to display help
+show_help() {
+    echo "Gemini-Powered Auto-Commit Script"
+    echo ""
+    echo "Usage: $0 [OPTIONS]"
+    echo ""
+    echo "Options:"
+    echo "  --auto-add    Automatically add all changes to staging (git add .)"
+    echo "  --help        Show this help message"
+    echo ""
+    echo "Description:"
+    echo "  This script uses the Gemini CLI to generate a commit message based on staged changes."
+    echo "  By default, it only commits already staged changes. Use --auto-add to automatically"
+    echo "  stage all changes before generating the commit message."
+    echo ""
+    echo "Examples:"
+    echo "  $0                # Commit staged changes with generated message"
+    echo "  $0 --auto-add     # Add all changes, then commit with generated message"
+    echo "  $0 --help         # Show this help message"
+}
+
+# Parse command line arguments
+AUTO_ADD=false
+for arg in "$@"; do
+    case $arg in
+        --auto-add)
+            AUTO_ADD=true
+            shift
+            ;;
+        --help)
+            show_help
+            exit 0
+            ;;
+        *)
+            echo "❌ Unknown option: $arg"
+            echo "Use --help to see available options."
+            exit 1
+            ;;
+    esac
+done
+
 # Check if gemini cli is installed
-if ! command -v gemini &> /dev/null
+if ! command -v gemini > /dev/null 2>&1
 then
     echo "❌ Error: The 'gemini' command-line tool is not installed or not in your PATH."
     echo "Please install it to use this script."
+    echo "You can check this by running: command -v gemini"
     exit 1
 fi
-
 
 echo "🔎 Checking git status..."
 git status --short
 
-echo "➕ Adding all changes to staging..."
-git add .
+# Only add changes if --auto-add flag is provided
+if [ "$AUTO_ADD" = true ]; then
+    echo "➕ Adding all changes to staging..."
+    git add .
+fi
 
 # Check if there are any changes to commit
 if git diff --cached --quiet; then

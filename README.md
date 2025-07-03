@@ -2,6 +2,16 @@
 
 This script automates the process of writing conventional git commit messages by using the Gemini CLI to generate a message based on your staged changes.
 
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/ethanzhrepo/git-commit-auto-gen-gemini)
+![GitHub Release](https://img.shields.io/github/v/release/ethanzhrepo/git-commit-auto-gen-gemini)
+![GitHub Repo stars](https://img.shields.io/github/stars/ethanzhrepo/git-commit-auto-gen-gemini)
+![GitHub License](https://img.shields.io/github/license/ethanzhrepo/git-commit-auto-gen-gemini)
+
+
+<a href="https://x.com/intent/follow?screen_name=0x99_Ethan">
+<img alt="X (formerly Twitter) Follow" src="https://img.shields.io/twitter/follow/0x99_Ethan">
+</a>
+
 ## Features
 
 -   **Automatic Commit Message Generation**: Analyzes your staged code changes (`git diff --cached`) to create a meaningful commit message.
